@@ -21,32 +21,28 @@ npm install pure-date-formatter
 
 ### 1. Formatting a Date
 
-Use the `fromDate` method to format a JavaScript `Date` object into a string.
+Use the `from` method to format a JavaScript `Date` object into a string.
 
 ```typescript
-import { dateFormatter } from 'pure-date-formatter';
-
-const { fromDate } = dateFormatter();
+import formatter from 'pure-date-formatter';
 
 const date = new Date();
 const format = 'YYYY-MM-DD HH:mm:ss A';
-const formattedDate = fromDate(date, format, 'en-US');
+const formattedDate = formatter.from(date, format, 'en-US');
 
 console.log(formattedDate); // Example: "2024-09-07 02:35:45 PM"
 ```
 
 ### 2. Parsing a Date String
 
-Use the `toDate` method to parse a formatted date string into a `Date` object.
+Use the `to` method to parse a formatted date string into a `Date` object.
 
 ```typescript
-import { dateFormatter } from 'pure-date-formatter';
-
-const { toDate } = dateFormatter();
+import formatter from 'pure-date-formatter';
 
 const dateString = '2024-09-07 02:35:45 PM';
 const format = 'YYYY-MM-DD HH:mm:ss A';
-const parsedDate = toDate(dateString, format, 'en-US');
+const parsedDate = formatter.to(dateString, format, 'en-US');
 
 console.log(parsedDate); // Output: Date object for "2024-09-07 02:35:45 PM"
 ```
@@ -79,16 +75,16 @@ console.log(parsedDate); // Output: Date object for "2024-09-07 02:35:45 PM"
 
 ### 4. Localization
 
-Localized day and month names are supported through the `Intl.DateTimeFormat` API. Pass a valid locale code (e.g., `'en-US'`, `'fr-FR'`, etc.) as the third argument to either `fromDate` or `toDate`.
+Localized day and month names are supported through the `Intl.DateTimeFormat` API. Pass a valid locale code (e.g., `'en-US'`, `'fr-FR'`, etc.) as the third argument to either `from` or `to`.
 
 ```typescript
-const formattedDate = fromDate(new Date(), 'dddd, MMMM D, YYYY', 'fr-FR');
+const formattedDate = formatter.from(new Date(), 'dddd, MMMM D, YYYY', 'fr-FR');
 console.log(formattedDate); // Example: "samedi, septembre 7, 2024"
 ```
 
 ## API
 
-### `fromDate(date: Date, format: string, locale?: string)`
+### `from(date: Date, format: string, locale?: string)`
 
 Formats a `Date` object into a string using a specified format.
 
@@ -98,7 +94,7 @@ Formats a `Date` object into a string using a specified format.
 
 Returns the formatted date string.
 
-### `toDate(dateString: string, format: string, locale?: string)`
+### `to(dateString: string, format: string, locale?: string)`
 
 Parses a formatted date string into a `Date` object.
 

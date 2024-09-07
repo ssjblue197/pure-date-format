@@ -173,7 +173,7 @@ function parseMatches(matches: RegExpMatchArray, tokens: Token[], localeData: Lo
 }
 
 function parseTimezoneOffset(value: string) {
-  let sign = value[0] === '+' ? 1 : -1;
+  const sign = value[0] === '+' ? 1 : -1;
 
   let hours, minutes;
   if (value.includes(':')) {
@@ -234,8 +234,8 @@ function buildRegexPattern(tokens: Token[], localeData: LocaleData) {
 
   return new RegExp('^' + pattern + '$', 'i');
 }
-export function dateFormatter() {
-  function fromDate(date: Date, format: string, locale = 'en-US') {
+export default function () {
+  function from(date: Date, format: string, locale = 'en-US') {
     const { dayNames, dayShortNames, dayMinNames, monthNames, monthShortNames } = getLocalizedNames(locale);
 
     const day = date.getDate();
@@ -291,7 +291,7 @@ export function dateFormatter() {
     );
   }
 
-  function toDate(dateString: string, format: string, locale = 'en-US') {
+  function to(dateString: string, format: string, locale = 'en-US') {
     const localeData = getLocalizedNames(locale);
     const tokens = tokenizeFormat(format);
     const regex = buildRegexPattern(tokens, localeData);
@@ -305,5 +305,5 @@ export function dateFormatter() {
     return parseMatches(matches, tokens, localeData);
   }
 
-  return { fromDate, toDate };
+  return { from, to };
 }
