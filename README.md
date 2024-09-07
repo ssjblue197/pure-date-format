@@ -14,7 +14,7 @@ This module provides functionality to format JavaScript `Date` objects into stri
 Install the module via npm:
 
 ```bash
-npm install pure-date-formatter
+npm install pure-date-format
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install pure-date-formatter
 Use the `from` method to format a JavaScript `Date` object into a string.
 
 ```typescript
-import formatter from 'pure-date-formatter';
+import formatter from 'pure-date-format';
 
 const date = new Date();
 const format = 'YYYY-MM-DD HH:mm:ss A';
@@ -38,7 +38,7 @@ console.log(formattedDate); // Example: "2024-09-07 02:35:45 PM"
 Use the `to` method to parse a formatted date string into a `Date` object.
 
 ```typescript
-import formatter from 'pure-date-formatter';
+import formatter from 'pure-date-format';
 
 const dateString = '2024-09-07 02:35:45 PM';
 const format = 'YYYY-MM-DD HH:mm:ss A';

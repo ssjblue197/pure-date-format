@@ -1,5 +1,5 @@
 {
-    "name": "pure-date-formatter",
+    "name": "pure-date-format",
     "version": "1.0.0",
     "description": "A simple library to parse date object from string or convert date object to string by provided format base on native browser API (Intl.DateTimeFormat).",
     "main": "dist/index.js",
@@ -15,7 +15,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ssjblue197/pure-date-formatter.git"
+        "url": "git+https://github.com/ssjblue197/pure-date-format.git"
     },
     "keywords": [
         "pure ui",
@@ -29,9 +29,9 @@
     "author": "Mr.P",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/ssjblue197/pure-date-formatter/issues"
+        "url": "https://github.com/ssjblue197/pure-date-format/issues"
     },
-    "homepage": "https://github.com/ssjblue197/pure-date-formatter#readme",
+    "homepage": "https://github.com/ssjblue197/pure-date-format#readme",
     "devDependencies": {
         "del": "^6.0.0",
         "typescript": "^5.1.3"
