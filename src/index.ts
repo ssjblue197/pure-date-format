@@ -16,23 +16,36 @@ export function padZero(num: number, length = 2) {
 }
 
 export function getLocalizedNames(locale: string) {
-  const formatter = (options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, options);
+  const formatter = (options: Intl.DateTimeFormatOptions) =>
+    new Intl.DateTimeFormat(locale, options);
 
   const dayNames = Array.from({ length: 7 }, (_, i) =>
-    formatter({ weekday: 'long' }).format(new Date(Date.UTC(2024, 1, i + 1)))
+    formatter({ weekday: 'long' }).format(
+      new Date(Date.UTC(2024, 1, i + 1)),
+    ),
   );
   const dayShortNames = Array.from({ length: 7 }, (_, i) =>
-    formatter({ weekday: 'short' }).format(new Date(Date.UTC(2024, 1, i + 1)))
+    formatter({ weekday: 'short' }).format(
+      new Date(Date.UTC(2024, 1, i + 1)),
+    ),
   );
   const dayMinNames = Array.from({ length: 7 }, (_, i) =>
-    formatter({ weekday: 'narrow' }).format(new Date(Date.UTC(2024, 1, i + 1)))
+    formatter({ weekday: 'narrow' }).format(
+      new Date(Date.UTC(2024, 1, i + 1)),
+    ),
   );
 
   const monthNames = Array.from({ length: 12 }, (_, i) =>
-    formatter({ month: 'long' }).format(new Date(Date.UTC(2024, i, 1)))
+    formatter({ month: 'long' }).format(
+      new Date(Date.UTC(2024, i, 1)),
+    ),
   );
-  const monthShortNames = Array.from({ length: 12 }, (_, i) =>
-    formatter({ month: 'short' }).format(new Date(Date.UTC(2024, i, 1)))
+  const monthShortNames = Array.from(
+    { length: 12 },
+    (_, i) =>
+      formatter({ month: 'short' }).format(
+        new Date(Date.UTC(2024, i, 1)),
+      ),
   );
 
   return {
@@ -40,7 +53,7 @@ export function getLocalizedNames(locale: string) {
     dayShortNames,
     dayMinNames,
     monthNames,
-    monthShortNames
+    monthShortNames,
   };
 }
 
@@ -49,7 +62,8 @@ function escapeRegex(string: string) {
 }
 
 function tokenizeFormat(format: string) {
-  const regex = /(\\.|YYYY|YY|MMMM|MMM|MM|M|DD|D|HH|H|hh|h|mm|m|ss|s|SSS|ZZ|Z|A|a|\[.*?\])/g;
+  const regex =
+    /(\\.|YYYY|YY|MMMM|MMM|MM|M|DD|D|HH|H|hh|h|mm|m|ss|s|SSS|ZZ|Z|A|a|\[.*?\])/g;
   const tokens: Token[] = [];
   let lastIndex = 0;
   let match;
@@ -58,7 +72,7 @@ function tokenizeFormat(format: string) {
     if (match.index > lastIndex) {
       tokens.push({
         literal: true,
-        value: format.slice(lastIndex, match.index)
+        value: format.slice(lastIndex, match.index),
       });
     }
     tokens.push({ literal: false, value: match[0] });
@@ -68,14 +82,18 @@ function tokenizeFormat(format: string) {
   if (lastIndex < format.length) {
     tokens.push({
       literal: true,
-      value: format.slice(lastIndex)
+      value: format.slice(lastIndex),
     });
   }
 
   return tokens;
 }
 
-function parseMatches(matches: RegExpMatchArray, tokens: Token[], localeData: LocaleData) {
+function parseMatches(
+  matches: RegExpMatchArray,
+  tokens: Token[],
+  localeData: LocaleData,
+) {
   const { monthNames, monthShortNames } = localeData;
 
   let year = 1970;
@@ -90,7 +108,7 @@ function parseMatches(matches: RegExpMatchArray, tokens: Token[], localeData: Lo
 
   let matchIndex = 1; // matches[0] is the full match
 
-  tokens.forEach(token => {
+  tokens.forEach((token) => {
     if (token.literal) {
       // Literals do not consume matches
       return;
@@ -152,7 +170,9 @@ function parseMatches(matches: RegExpMatchArray, tokens: Token[], localeData: Lo
   });
 
   // Adjust hours for AM/PM
-  if (tokens.some(t => t.value === 'A' || t.value === 'a')) {
+  if (
+    tokens.some((t) => t.value === 'A' || t.value === 'a')
+  ) {
     if (isPM && hours < 12) {
       hours += 12;
     }
@@ -162,11 +182,23 @@ function parseMatches(matches: RegExpMatchArray, tokens: Token[], localeData: Lo
   }
 
   // Create the date object in UTC
-  let date = new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds));
+  let date = new Date(
+    Date.UTC(
+      year,
+      month,
+      day,
+      hours,
+      minutes,
+      seconds,
+      milliseconds,
+    ),
+  );
 
   // Adjust for timezone offset if provided
   if (timezoneOffsetMinutes !== null) {
-    date = new Date(date.getTime() - timezoneOffsetMinutes * 60000);
+    date = new Date(
+      date.getTime() - timezoneOffsetMinutes * 60000,
+    );
   }
 
   return date;
@@ -178,7 +210,10 @@ function parseTimezoneOffset(value: string) {
   let hours, minutes;
   if (value.includes(':')) {
     // Format: +HH:mm
-    [hours, minutes] = value.slice(1).split(':').map(Number);
+    [hours, minutes] = value
+      .slice(1)
+      .split(':')
+      .map(Number);
   } else {
     // Format: +HHmm
     hours = Number(value.slice(1, 3));
@@ -187,20 +222,33 @@ function parseTimezoneOffset(value: string) {
   return sign * (hours * 60 + minutes);
 }
 
-function buildRegexPattern(tokens: Token[], localeData: LocaleData) {
-  const { dayNames, dayShortNames, dayMinNames, monthNames, monthShortNames } = localeData;
+function buildRegexPattern(
+  tokens: Token[],
+  localeData: LocaleData,
+) {
+  const {
+    dayNames,
+    dayShortNames,
+    dayMinNames,
+    monthNames,
+    monthShortNames,
+  } = localeData;
 
   const tokenPatterns: Record<string, string> = {
     YYYY: '(\\d{4})',
     YY: '(\\d{2})',
     MMMM: '(' + monthNames.map(escapeRegex).join('|') + ')',
-    MMM: '(' + monthShortNames.map(escapeRegex).join('|') + ')',
+    MMM:
+      '(' +
+      monthShortNames.map(escapeRegex).join('|') +
+      ')',
     MM: '(\\d{2})',
     M: '(\\d{1,2})',
     DD: '(\\d{2})',
     D: '(\\d{1,2})',
     dddd: '(' + dayNames.map(escapeRegex).join('|') + ')',
-    ddd: '(' + dayShortNames.map(escapeRegex).join('|') + ')',
+    ddd:
+      '(' + dayShortNames.map(escapeRegex).join('|') + ')',
     dd: '(' + dayMinNames.map(escapeRegex).join('|') + ')',
     d: '(\\d{1})',
     HH: '(\\d{2})',
@@ -215,7 +263,7 @@ function buildRegexPattern(tokens: Token[], localeData: LocaleData) {
     A: '(AM|PM)',
     a: '(am|pm)',
     Z: '([+-]\\d{2}:\\d{2})',
-    ZZ: '([+-]\\d{4})'
+    ZZ: '([+-]\\d{4})',
     // Add other tokens as needed
   };
 
@@ -234,9 +282,20 @@ function buildRegexPattern(tokens: Token[], localeData: LocaleData) {
 
   return new RegExp('^' + pattern + '$', 'i');
 }
+
 export default function () {
-  function from(date: Date, format: string, locale = 'en-US') {
-    const { dayNames, dayShortNames, dayMinNames, monthNames, monthShortNames } = getLocalizedNames(locale);
+  function from(
+    date: Date,
+    format: string,
+    locale = 'en-US',
+  ) {
+    const {
+      dayNames,
+      dayShortNames,
+      dayMinNames,
+      monthNames,
+      monthShortNames,
+    } = getLocalizedNames(locale);
 
     const day = date.getDate();
     const dayOfWeek = date.getDay();
@@ -284,14 +343,19 @@ export default function () {
         padZero(Math.floor(Math.abs(timezoneOffset) / 60)) +
         padZero(Math.abs(timezoneOffset) % 60),
       A: isPM ? 'PM' : 'AM',
-      a: isPM ? 'pm' : 'am'
+      a: isPM ? 'pm' : 'am',
     };
-    return format.replace(/YYYY|YY|MMMM|MMM|MM|M|DDD|DD|D|dddd|ddd|dd|d|HH|H|hh|h|mm|m|ss|s|SSS|ZZ|Z|A|a/g, match =>
-      String(tokens[match])
+    return format.replace(
+      /YYYY|YY|MMMM|MMM|MM|M|DDD|DD|D|dddd|ddd|dd|d|HH|H|hh|h|mm|m|ss|s|SSS|ZZ|Z|A|a/g,
+      (match) => String(tokens[match]),
     );
   }
 
-  function to(dateString: string, format: string, locale = 'en-US') {
+  function to(
+    dateString: string,
+    format: string,
+    locale = 'en-US',
+  ) {
     const localeData = getLocalizedNames(locale);
     const tokens = tokenizeFormat(format);
     const regex = buildRegexPattern(tokens, localeData);
@@ -305,5 +369,24 @@ export default function () {
     return parseMatches(matches, tokens, localeData);
   }
 
-  return { from, to };
+  function isValid(dateString: string, format?: string) {
+    try {
+      const dateObject = format
+        ? //@ts-ignore
+          this.to(dateString, format)
+        : new Date(dateString);
+      if (
+        dateObject instanceof Date &&
+        !isNaN(dateObject.getTime())
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+
+  return { from, to, isValid };
 }

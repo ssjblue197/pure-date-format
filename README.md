@@ -47,7 +47,23 @@ const parsedDate = formatter.to(dateString, format, 'en-US');
 console.log(parsedDate); // Output: Date object for "2024-09-07 02:35:45 PM"
 ```
 
-### 3. Supported Format Tokens
+### 3. Validation a Date String
+
+- Check if the date string can be parsed as a valid `Date` object.
+- Supports custom date formats when provided.
+- Handles invalid date strings gracefully by returning `false`.
+
+```typescript
+import formatter from 'pure-date-format';
+
+const dateString = '2024-09-07 02:35:45 PM';
+const format = 'YYYY-MM-DD HH:mm:ss A';
+const isValid = formatter.isValid(dateString, format);
+
+console.log(isValid); // Output: true
+```
+
+### 4. Supported Format Tokens
 
 | Token  | Description                | Example   |
 | ------ | -------------------------- | --------- |
@@ -73,7 +89,7 @@ console.log(parsedDate); // Output: Date object for "2024-09-07 02:35:45 PM"
 | `Z`    | Timezone offset (+HH:mm)   | +02:00    |
 | `ZZ`   | Timezone offset (+HHmm)    | +0200     |
 
-### 4. Localization
+### 5. Localization
 
 Localized day and month names are supported through the `Intl.DateTimeFormat` API. Pass a valid locale code (e.g., `'en-US'`, `'fr-FR'`, etc.) as the third argument to either `from` or `to`.
 
@@ -104,25 +120,14 @@ Parses a formatted date string into a `Date` object.
 
 Returns a JavaScript `Date` object representing the parsed date.
 
-### `padZero(num: number, length: number)`
+### `isValid(dateString: string, format?: string)`
 
-Pads a number with leading zeros to a specified length.
+The `isValid` function validates a date string by checking if it can be parsed into a valid date object. Optionally, it allows specifying a format for the date string to ensure the input adheres to a specific date format.
 
-### `getLocalizedNames(locale: string)`
+- **`dateString`**: The formatted date string to validate.
+- **`format`**(optional, string): A specific date format to validate against (e.g., 'YYYY-MM-DD'). If no format is provided, the function defaults to creating a Date object from the string.
 
-Returns localized day and month names for the given locale.
-
-### `tokenizeFormat(format: string)`
-
-Parses a format string into an array of tokens.
-
-### `parseMatches(matches: RegExpMatchArray, tokens: Token[], localeData: LocaleData)`
-
-Parses matched date components from a string.
-
-### `buildRegexPattern(tokens: Token[], localeData: LocaleData)`
-
-Builds a regular expression pattern to match the date string based on the format.
+Returns `true` if the `dateString` is a valid date or `false` if if the `dateString` is invalid.
 
 ## License
 
