@@ -1,4 +1,5 @@
-import babel from '@rollup/plugin-babel';
+import typescript from '@rollup/plugin-typescript';
+
 import { terser } from 'rollup-plugin-terser';
 
 export default {
@@ -9,10 +10,11 @@ export default {
         { file: 'dist/index.esm.js', format: 'esm' }
     ],
     plugins: [
-        babel({
-            babelHelpers: 'bundled',
-            extensions: ['.ts', '.js'],
-            presets: ['@babel/preset-typescript'],
+        typescript({
+            declaration: true, // Ensure it generates declarations
+            declarationDir: 'dist/types', // Declaration output directory
+            rootDir: 'src', // Base directory for sources
+            exclude: 'node_modules/**',
         }),
     ],
 };

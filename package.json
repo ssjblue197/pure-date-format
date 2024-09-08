@@ -1,6 +1,6 @@
 {
     "name": "pure-date-format",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "A simple library to parse date object from string or convert date object to string by provided format base on native browser API (Intl.DateTimeFormat).",
     "main": "dist/index.js",
     "module": "dist/index.js",
@@ -39,13 +39,11 @@
     },
     "homepage": "https://github.com/ssjblue197/pure-date-format#readme",
     "devDependencies": {
-        "@babel/core": "^7.25.2",
-        "@babel/preset-typescript": "^7.24.7",
-        "@rollup/plugin-babel": "^6.0.4",
         "@rollup/plugin-typescript": "^11.1.6",
         "del": "^6.0.0",
         "rollup": "^4.21.2",
         "rollup-plugin-terser": "^7.0.2",
+        "tslib": "^2.7.0",
         "typescript": "^5.1.3"
     }
 }
