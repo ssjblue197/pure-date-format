@@ -1,4 +1,4 @@
-declare namespace PureDateFormat {
+declare module PureDateFormat {
   export function isValid(
     dateString: string,
     format?: string,

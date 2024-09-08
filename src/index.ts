@@ -11,11 +11,11 @@ export interface Token {
   value: string;
 }
 
-export function padZero(num: number, length = 2) {
+function padZero(num: number, length = 2) {
   return num.toString().padStart(length, '0');
 }
 
-export function getLocalizedNames(locale: string) {
+function getLocalizedNames(locale: string) {
   const formatter = (options: Intl.DateTimeFormatOptions) =>
     new Intl.DateTimeFormat(locale, options);
 
