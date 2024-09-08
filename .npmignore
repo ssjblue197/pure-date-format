@@ -1,0 +1,18 @@
+# Ignore source files
+src/
+tests/
+node_modules/
+scripts/
+
+# Ignore build and config files
+rollup.config.js
+tsconfig.json
+yarn.lock
+
+# Ignore other unnecessary files
+*.log
+.vscode/
+.prettierrgnore
+.editorconfig
+.gitignore
+.github/
