@@ -98,6 +98,15 @@ const formattedDate = formatter.from(new Date(), 'dddd, MMMM D, YYYY', 'fr-FR');
 console.log(formattedDate); // Example: "samedi, septembre 7, 2024"
 ```
 
+### 6. Manipulate a Date
+
+- Add or subtract time units to/from a Date object.
+- Supports the following time units: `ms`, `milliseconds`, `s`, `seconds`, `m`, `minutes`, `h`, `hours`, `d`, `days`, `M`, `months`, `y`, `years`.
+  
+```typescript
+const newDate = formatter.add(new Date(), 3, 'days');
+```
+
 ## API
 
 ### `from(date: Date, format: string, locale?: string)`
@@ -128,6 +137,14 @@ The `isValid` function validates a date string by checking if it can be parsed i
 - **`format`**(optional, string): A specific date format to validate against (e.g., 'YYYY-MM-DD'). If no format is provided, the function defaults to creating a Date object from the string.
 
 Returns `true` if the `dateString` is a valid date or `false` if if the `dateString` is invalid.
+
+### `add(date: Date, amount: number, unit: TimeUnit)`
+
+Return new date has manipulate.
+
+- **`date`**: The date object to manipulate.
+- **`amount`**: The amount off unit need add/subtract.
+- **`unit`**: The unit of amount.
 
 ## License
 

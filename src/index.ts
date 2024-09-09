@@ -1,3 +1,5 @@
+export type TimeUnit = 'ms' | 'milliseconds' | 's' | 'seconds' | 'm' | 'minutes' | 'h' | 'hours' | 'd' | 'days' | 'M' | 'months' | 'y' | 'years';
+
 export interface LocaleData {
   dayNames: string[];
   dayShortNames: string[];
@@ -388,5 +390,62 @@ export default function () {
     }
   }
 
-  return { from, to, isValid };
+  function add(date: Date, amount: number, unit: TimeUnit): Date {
+    try {
+      const newDate = new Date(date); // Copy the original date
+
+      const millisecondsPerUnit: Record<TimeUnit, number> = {
+        ms: 1,
+        milliseconds: 1,
+        s: 1000,
+        seconds: 1000,
+        m: 60000,
+        minutes: 60000,
+        h: 3600000,
+        hours: 3600000,
+        d: 86400000,
+        days: 86400000,
+        M: 0, // special case, handled below
+        months: 0, // special case, handled below
+        y: 0, // special case, handled below
+        years: 0 // special case, handled below
+      };
+
+      // Handle years and months separately as their duration varies
+      switch (unit) {
+        case 'y':
+        case 'years':
+          newDate.setFullYear(newDate.getFullYear() + amount);
+          break;
+        case 'M':
+        case 'months':
+          const originalDay = newDate.getDate(); // Save the original day of the month
+          newDate.setMonth(newDate.getMonth() + amount);
+
+          // If the month change results in an invalid date, adjust to the last valid day
+          if (newDate.getDate() !== originalDay) {
+            newDate.setDate(0); // Move to the last day of the previous month
+          }
+          break;
+        default:
+          if (!millisecondsPerUnit[unit]) {
+            throw new Error('Invalid time unit');
+          }
+          // Add the corresponding milliseconds to the date
+          const newTime = newDate.getTime() + amount * millisecondsPerUnit[unit];
+          newDate.setTime(newTime);
+          break;
+      }
+
+      return newDate;
+    } catch (error) {
+      throw new Error('Invalid date');
+    }
+  }
+
+  function subtract(date: Date, amount: number, unit: TimeUnit): Date {
+    return add(date, -amount, unit);
+  }
+
+  return { from, to, isValid, add, subtract };
 }
