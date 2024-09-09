@@ -1,6 +1,6 @@
 {
     "name": "pure-date-format",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "A simple library to parse date object from string or convert date object to string by provided format base on native browser API (Intl.DateTimeFormat).",
     "main": "dist/index.js",
     "module": "dist/index.js",

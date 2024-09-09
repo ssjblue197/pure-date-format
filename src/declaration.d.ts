@@ -13,4 +13,14 @@ declare module PureDateFormat {
     format: string,
     locale?: string,
   ): string;
+  export function add(
+    date: Date,
+    amount: number,
+    unit: TimeUnit,
+  ): Date;
+  export function subtract(
+    date: Date,
+    amount: number,
+    unit: TimeUnit,
+  ): Date;
 }
