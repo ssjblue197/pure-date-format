@@ -39,14 +39,14 @@ function getLocalizedNames(locale: string) {
 
   const monthNames = Array.from({ length: 12 }, (_, i) =>
     formatter({ month: 'long' }).format(
-      new Date(2024, i, 1),
+      new Date(Date.UTC(2024, i, 15))
     ),
   );
   const monthShortNames = Array.from(
     { length: 12 },
     (_, i) =>
       formatter({ month: 'short' }).format(
-        new Date(2024, i, 1),
+        new Date(Date.UTC(2024, i, 15))
       ),
   );
 
