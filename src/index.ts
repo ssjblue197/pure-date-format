@@ -291,6 +291,7 @@ export default function () {
     format: string,
     locale = 'en-US',
   ) {
+    if (!date) return '';
     const {
       dayNames,
       dayShortNames,
@@ -358,6 +359,7 @@ export default function () {
     format: string,
     locale = 'en-US',
   ) {
+    if (!dateString) return null;
     const localeData = getLocalizedNames(locale);
     const tokens = tokenizeFormat(format);
     const regex = buildRegexPattern(tokens, localeData);
